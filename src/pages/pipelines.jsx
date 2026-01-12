@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import ProjectName from '../components/ProjectName';
 import axios from 'axios';
 import pipelineService from '../services/pipelineService';
+import API_BASE from '../utils/apiBase';
 
 /**
  * Pipelines page component.
@@ -11,7 +12,6 @@ import pipelineService from '../services/pipelineService';
  */
 
 export default function App() {
-  import API_BASE from '../utils/apiBase';
   const API_BASE_LOCAL = API_BASE;
   const { projectName, projectInitial } = useProject();
   const [showModal, setShowModal] = useState(false);

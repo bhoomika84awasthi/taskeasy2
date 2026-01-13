@@ -1,10 +1,11 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Navbar from "../components/Navbar";
-import DisplayProject from "../components/project/DisplayProject";
-const API_BASE = import.meta.env.VITE_API_BASE;
-const baseURL = `${API_BASE}/api/projects`;
+import API_BASE from "../utils/apiBase";   // ✅ import at top
+ 
+export default function ProjectPage() {
+  const baseURL = `${API_BASE}/projects`;
+
+
 
 
 export default function Projects() {

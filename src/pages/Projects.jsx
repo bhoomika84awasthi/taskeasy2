@@ -1,10 +1,13 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import DisplayProject from "../components/project/DisplayProject";
+const API_BASE = import.meta.env.VITE_API_BASE;
+const baseURL = `${API_BASE}/api/projects`;
+
 
 export default function Projects() {
-  const baseURL = "http://localhost:5001/api/projects";
   const token = localStorage.getItem("token");
 
   const [projects, setProjects] = useState([]);

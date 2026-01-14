@@ -10,7 +10,7 @@ import DisplayPull from "../components/project/DisplayPull";
 import { useNavigate } from "react-router-dom";
 
 export default function ProjectPage() {
-  const baseURL = "http://localhost:5000/api/projects";
+  const baseURL = (process.env.VITE_API_BASE || 'https://backend-xfp1.vercel.app/api') + '/projects';
   const [isOpen, setIsOpen] = useState(false);
   const token = localStorage.getItem("token");
   const toggleDrawer = () => setIsOpen(!isOpen);

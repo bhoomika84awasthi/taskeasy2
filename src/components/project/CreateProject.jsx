@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { API_BASE_URL, BACKEND_URL } from '../../config/apiConfig';
+
 
 export default function CreateProject({ onCreate }) {
   const [logo, setLogo] = useState(null);
@@ -10,7 +12,7 @@ export default function CreateProject({ onCreate }) {
   const [loading, setLoading] = useState(false);
 
   const token = localStorage.getItem("token");
-  const url = "http://localhost:5000/api/projects";
+  const url = `${API_BASE_URL}` + url;
 
  const handleSubmit = async (e) => {
   e.preventDefault();

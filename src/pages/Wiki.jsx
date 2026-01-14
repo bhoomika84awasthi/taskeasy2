@@ -31,6 +31,8 @@ import {
   Redo,
 } from "lucide-react";
 import {
+import { API_BASE_URL, BACKEND_URL } from '../config/apiConfig';
+
   Table,
   TableRow,
   TableHeader,
@@ -117,7 +119,7 @@ export default function Wiki({ onExit }) {
     const fetchProjects = async () => {
       if (!token) return;
       try {
-        const res = await axios.get("http://localhost:5000/api/projects", {
+        const res = await axios.get("${API_BASE_URL}/projects", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const list = res.data?.projects || res.data || [];
@@ -159,7 +161,7 @@ export default function Wiki({ onExit }) {
     }
 
     const content = editor.getHTML();
-    const url = `http://localhost:5000/api/projects/${encodeURIComponent(projectToUse)}/wiki`;
+    const url = `${API_BASE_URL}/projects/${encodeURIComponent(projectToUse)}/wiki`;
 
     try {
       setLoading(true);

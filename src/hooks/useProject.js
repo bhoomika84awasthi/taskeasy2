@@ -52,7 +52,7 @@ export function useProject() {
       try {
         setLoading(true);
         setError(null);
-        const res = await axios.get(`http://localhost:5000/api/projects/${projectId}`, {
+        const res = await axios.get(`${(process.env.VITE_API_BASE || 'https://backend-xfp1.vercel.app/api')}/projects/${projectId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!mounted) return;

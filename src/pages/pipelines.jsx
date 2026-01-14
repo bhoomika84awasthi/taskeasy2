@@ -4,6 +4,8 @@ import {Link} from "react-router-dom";
 import ProjectName from '../components/ProjectName';
 import axios from 'axios';
 import pipelineService from '../services/pipelineService';
+import { API_BASE_URL, BACKEND_URL } from '../config/apiConfig';
+
 
 /**
  * Pipelines page component.
@@ -28,7 +30,7 @@ export default function App() {
     const fetchProjects = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/projects', {
+        const res = await axios.get('${API_BASE_URL}/projects', {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.data.projects && res.data.projects.length > 0) {

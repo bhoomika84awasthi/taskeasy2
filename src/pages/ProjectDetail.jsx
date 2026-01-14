@@ -4,6 +4,8 @@ import ProjectDetailBody from "../components/project/ProjectDetailBody";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { API_BASE_URL, BACKEND_URL } from '../config/apiConfig';
+
 
 export default function ProjectDetail() {
   const { id } = useParams();
@@ -11,7 +13,7 @@ export default function ProjectDetail() {
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const baseURL = "http://localhost:5001/api/projects";
+  const baseURL = `${API_BASE_URL}/projects`;
 
   useEffect(() => {
     const fetchProject = async () => {

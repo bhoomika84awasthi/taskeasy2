@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = process.env.VITE_API_BASE || 'https://backend-xfp1.vercel.app/api';
 
 // Get auth token from localStorage
 const getAuthHeader = () => {

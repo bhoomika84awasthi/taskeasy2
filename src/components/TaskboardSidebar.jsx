@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useProject } from "../hooks/useProject";
 import {
+import { API_BASE_URL, BACKEND_URL } from '../config/apiConfig';
+
   LayoutGrid,
   LayoutList,
   ListTodo,
@@ -42,7 +44,7 @@ export default function TaskboardSidebar({ projectName }) {
     if (projectId) {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get(`http://localhost:5000/api/projects/${projectId}`, {
+        const res = await axios.get(`${API_BASE_URL}/projects/${projectId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         navigate(path, { state: { project: res.data.project || res.data } });

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import ProjectName from '../components/ProjectName';
 import { useProject } from '../hooks/useProject';
 import { createWorkItem } from "../services/workItemService";
+import { API_BASE_URL, BACKEND_URL } from '../config/apiConfig';
+
 
 const SprintFixed = () => {
   const [showModal, setShowModal] = useState(false);
@@ -30,7 +32,7 @@ const SprintFixed = () => {
     const fetchProjects = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/projects", {
+        const res = await axios.get("${API_BASE_URL}/projects", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.data.projects && res.data.projects.length > 0) {
@@ -50,7 +52,7 @@ const SprintFixed = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          `http://localhost:5000/api/projects/${selectedProjectId}/sprints`,
+          `${API_BASE_URL}/projects/${selectedProjectId}/sprints`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (res.data.sprints && Array.isArray(res.data.sprints)) {
@@ -100,7 +102,7 @@ const SprintFixed = () => {
       };
 
       const res = await axios.post(
-        `http://localhost:5000/api/projects/${projectId}/sprints`,
+        `${API_BASE_URL}/projects/${projectId}/sprints`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import DisplayProject from "../components/project/DisplayProject";
 
 export default function Projects() {
-  const baseURL = "http://localhost:5001/api/projects";
+  const baseURL = (process.env.VITE_API_BASE || 'https://backend-xfp1.vercel.app/api') + '/projects';
   const token = localStorage.getItem("token");
 
   const [projects, setProjects] = useState([]);

@@ -8,7 +8,7 @@ export default function DisplayProject({ projects, setProjects }) {
   const [openMenuId, setOpenMenuId] = useState(null);
   const menuRefs = useRef({});
   const navigate = useNavigate();
-  const url = "http://localhost:5000";
+  const url = "${BACKEND_URL}";
 
   const token = localStorage.getItem("token");
 

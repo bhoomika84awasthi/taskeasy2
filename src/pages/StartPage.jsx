@@ -15,7 +15,7 @@ export default function StartPage() {
   const incomingProject = location.state?.project;
   const navigate = useNavigate();
 
-  const baseURL = "http://localhost:5000/api/projects";
+  const baseURL = (process.env.VITE_API_BASE || 'https://backend-xfp1.vercel.app/api') + '/projects';
   const token = localStorage.getItem("token");
   const [projects, setProjects] = useState([]);
   const [category, setCategory] = useState("Projects");
@@ -230,7 +230,7 @@ export default function StartPage() {
                         aria-label={proj ? `Open ${proj.title} summary` : 'Summary (no project)'}
                       >
                         {proj.logo ? (
-                          <img src={`http://localhost:5000${proj.logo}`} alt={proj.title} className="w-10 h-10 rounded-lg object-cover" />
+                          <img src={`${(process.env.VITE_API_BASE || 'https://backend-xfp1.vercel.app/api').replace('/api', '')}${proj.logo}`} alt={proj.title} className="w-10 h-10 rounded-lg object-cover" />
                         ) : (
                           <span className="text-2xl font-bold text-purple-600 dark:text-purple-300">{(proj.title && proj.title[0]) || 'P'}</span>
                         )}

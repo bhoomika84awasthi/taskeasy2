@@ -35,6 +35,8 @@ import javascript from 'highlight.js/lib/languages/javascript';
 import { Bold, Italic, List, Image as ImageIcon, Link as LinkIcon, Code, Table as TableIcon, Undo, Redo } from 'lucide-react';
 import { Table, TableRow, TableHeader, TableCell } from '@tiptap/extension-table';
 import { useProject } from '../hooks/useProject';
+import { API_BASE_URL, BACKEND_URL } from '../config/apiConfig';
+
 
 lowlight.registerLanguage('javascript', javascript);
 
@@ -120,7 +122,7 @@ export default function WikiPage({ project: propProject }) {
     if (!token) return;
     const fetchProjects = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/projects', { headers: { Authorization: `Bearer ${token}` } });
+        const res = await axios.get('${API_BASE_URL}/projects', { headers: { Authorization: `Bearer ${token}` } });
         setProjects(res.data?.projects || res.data || []);
       } catch (err) {
         console.error('Failed to fetch projects', err?.response?.data || err.message);
@@ -140,7 +142,7 @@ export default function WikiPage({ project: propProject }) {
     const fetchPages = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost:5000/api/projects/${encodeURIComponent(effectiveProjectId)}/wiki`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await axios.get(`${API_BASE_URL}/projects/${encodeURIComponent(effectiveProjectId)}/wiki`, { headers: { Authorization: `Bearer ${token}` } });
         const list = res.data?.pages || [];
         setPages(list);
         if (list.length) setSelectedPage(list[0]);
@@ -172,7 +174,7 @@ export default function WikiPage({ project: propProject }) {
         throw new Error('Project ID missing');
       }
 
-      await axios.post(`http://localhost:5000/api/projects/${encodeURIComponent(targetProjectId)}/wiki`, {
+      await axios.post(`${API_BASE_URL}/projects/${encodeURIComponent(targetProjectId)}/wiki`, {
         // backend expects filename (used to name file) and filepath (holds HTML content)
         filename: `${newPageTitle.replace(/\s+/g, '-')}.html`,
         filepath: htmlContent,
@@ -183,7 +185,7 @@ export default function WikiPage({ project: propProject }) {
       setNewPageTitle('');
       setIsCreatingNew(false);
 
-      const res = await axios.get(`http://localhost:5000/api/projects/${encodeURIComponent(effectiveProjectId)}/wiki`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get(`${API_BASE_URL}/projects/${encodeURIComponent(effectiveProjectId)}/wiki`, { headers: { Authorization: `Bearer ${token}` } });
       const list = res.data?.pages || [];
       setPages(list);
       if (list.length) setSelectedPage(list[list.length - 1]);

@@ -6,6 +6,8 @@ import TaskboardSidebar from '../../TaskboardSidebar';
 import ProjectName from '../../ProjectName';
 import { useProject } from '../../../hooks/useProject';
 import TimelineVisualization from '../../TimelineVisualization';
+import { API_BASE_URL, BACKEND_URL } from '../../../config/apiConfig';
+
 
 export default function Taskboard() {
   const { projectName } = useProject();
@@ -50,7 +52,7 @@ export default function Taskboard() {
       try {
         const token = localStorage.getItem('token');
         const res = await axios.get(
-          `http://localhost:5000/api/projects/${selectedProjectId}/sprints`,
+          `${API_BASE_URL}/projects/${selectedProjectId}/sprints`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (res.data.sprints && Array.isArray(res.data.sprints)) {
@@ -71,7 +73,7 @@ export default function Taskboard() {
     const fetchWorkItems = async () => {
       try {
         const token = localStorage.getItem('token');
-        const url = `http://localhost:5000/api/projects/${selectedProjectId}/workitems`;
+        const url = `${API_BASE_URL}/projects/${selectedProjectId}/workitems`;
         console.log('Fetching work items from:', url);
         const res = await axios.get(url, {
           headers: { Authorization: `Bearer ${token}` }
@@ -188,7 +190,7 @@ export default function Taskboard() {
       if (!token) return alert('Not authenticated');
 
       const res = await axios.patch(
-        `http://localhost:5000/api/projects/${selectedProjectId}/workitems/${workItemId}`,
+        `${API_BASE_URL}/projects/${selectedProjectId}/workitems/${workItemId}`,
         { sprintId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -214,7 +216,7 @@ export default function Taskboard() {
       if (!token) return alert('Not authenticated');
 
       const response = await axios.delete(
-        `http://localhost:5000/api/projects/${selectedProjectId}/workitems/${workItemId}`,
+        `${API_BASE_URL}/projects/${selectedProjectId}/workitems/${workItemId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -254,7 +256,7 @@ export default function Taskboard() {
       console.log('workItemSprintId value:', workItemSprintId);
 
       const res = await axios.post(
-        `http://localhost:5000/api/projects/${selectedProjectId}/workitems`,
+        `${API_BASE_URL}/projects/${selectedProjectId}/workitems`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -313,7 +315,7 @@ export default function Taskboard() {
       };
 
       const res = await axios.post(
-        `http://localhost:5000/api/projects/${selectedProjectId}/sprints`,
+        `${API_BASE_URL}/projects/${selectedProjectId}/sprints`,
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = process.env.VITE_API_BASE || 'https://backend-xfp1.vercel.app/api';
 
 const authService = {
   register: async (userData) => {

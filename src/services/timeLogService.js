@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = process.env.VITE_API_BASE || 'https://backend-xfp1.vercel.app/api';
 
 export const fetchTimeLogSummary = async (projectId, filters = {}) => {
   try {

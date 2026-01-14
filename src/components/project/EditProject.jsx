@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_BASE_URL, BACKEND_URL } from '../../config/apiConfig';
+
 
 export default function EditProjectPage() {
   const { id } = useParams();
@@ -10,7 +12,7 @@ export default function EditProjectPage() {
   const [loading, setLoading] = useState(false);
 
   const token = localStorage.getItem("token");
-  const url = `http://localhost:5000/api/projects/${id}`;
+  const url = `${API_BASE_URL}/projects/${id}`;
 
   useEffect(() => {
     if (!token) return navigate("/login"); 

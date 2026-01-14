@@ -1,7 +1,7 @@
 import axios from 'axios';
 import projectContext from './projectContext';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = process.env.VITE_API_BASE || 'https://backend-xfp1.vercel.app/api';
 
 function ensureActiveProject(providedId) {
   const active = projectContext.getActiveProjectId();

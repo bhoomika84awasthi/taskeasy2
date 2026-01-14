@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useProject } from '../hooks/useProject';
 import {Link} from "react-router-dom";
 import ProjectName from '../components/ProjectName';
-import axiosInstance from '../services/axiosInstance';
+import axios from 'axios';
 import pipelineService from '../services/pipelineService';
 
 /**
@@ -28,7 +28,7 @@ export default function App() {
     const fetchProjects = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('/projects', {
+        const res = await axios.get('http://localhost:5000/api/projects', {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.data.projects && res.data.projects.length > 0) {

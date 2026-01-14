@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axiosInstance from '../services/axiosInstance';
+import axios from 'axios';
 
 /**
  * TaskEasyBacklogsExact.jsx (updated)
@@ -62,7 +62,7 @@ export default function TaskEasyBacklogsExact() {
     try {
       const token = localStorage.getItem('token');
       if (!token) return alert('Not authenticated');
-      await axiosInstance.delete(`/projects/${selectedProjectId}/workitems/${itemId}`, {
+      await axios.delete(`http://localhost:5000/api/projects/${selectedProjectId}/workitems/${itemId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setWorkItems(workItems.filter(w => w._id !== itemId));
@@ -79,7 +79,7 @@ export default function TaskEasyBacklogsExact() {
     if (!token) return;
     (async () => {
       try {
-        const res = await axios.get('/projects', { headers: { Authorization: `Bearer ${token}` } });
+        const res = await axios.get('http://localhost:5000/api/projects', { headers: { Authorization: `Bearer ${token}` } });
         const list = res.data?.projects || res.data || [];
         setProjects(list);
         // Respect global active project instead of auto-selecting the first project
@@ -100,7 +100,7 @@ export default function TaskEasyBacklogsExact() {
 
     (async () => {
       try {
-        const res = await axios.get(`/projects/${selectedProjectId}/boards`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await axios.get(`http://localhost:5000/api/projects/${selectedProjectId}/boards`, { headers: { Authorization: `Bearer ${token}` } });
         const list = res.data?.boards || [];
         setBoards(list);
         if (list.length) {
@@ -126,7 +126,7 @@ export default function TaskEasyBacklogsExact() {
 
     (async () => {
       try {
-        const res = await axios.get(`/projects/${selectedProjectId}/workitems`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await axios.get(`http://localhost:5000/api/projects/${selectedProjectId}/workitems`, { headers: { Authorization: `Bearer ${token}` } });
         const list = res.data?.items || [];
         setWorkItems(list);
       } catch (err) {
@@ -142,7 +142,7 @@ export default function TaskEasyBacklogsExact() {
       try {
         const token = localStorage.getItem('token');
         const res = await axios.get(
-          `/projects/${selectedProjectId}/sprints`,
+          `http://localhost:5000/api/projects/${selectedProjectId}/sprints`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (res.data.sprints && Array.isArray(res.data.sprints)) {
@@ -229,7 +229,9 @@ export default function TaskEasyBacklogsExact() {
         state: sprintState,
       };
 
-      const res = await axiosInstance.post(`/projects/${selectedProjectId}/sprints`, payload,
+      const res = await axios.post(
+        `http://localhost:5000/api/projects/${selectedProjectId}/sprints`,
+        payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -549,7 +551,7 @@ export default function TaskEasyBacklogsExact() {
                       boardId: boardIdInput || null,
                       columnId: columnIdInput || null,
                     };
-                    const res = await axiosInstance.post(`/projects/${projectIdInput}/workitems`, payload, { headers: { Authorization: `Bearer ${token}` } });
+                    const res = await axios.post(`http://localhost:5000/api/projects/${projectIdInput}/workitems`, payload, { headers: { Authorization: `Bearer ${token}` } });
                     if (res.data && res.data.item) {
                       setWorkItems((prev) => [...prev, res.data.item]);
                     }
@@ -652,7 +654,7 @@ export default function TaskEasyBacklogsExact() {
                       boardId: boardIdInput || null,
                       columnId: columnIdInput || null,
                     };
-                    await axiosInstance.patch(`/projects/${selectedProjectId}/workitems/${editingItemId}`, payload, { headers: { Authorization: `Bearer ${token}` } });
+                    await axios.patch(`http://localhost:5000/api/projects/${selectedProjectId}/workitems/${editingItemId}`, payload, { headers: { Authorization: `Bearer ${token}` } });
                     alert('Updated');
                     setShowEdit(false);
                     setWorkItems(workItems.map(w => w._id === editingItemId ? { ...w, ...payload } : w));

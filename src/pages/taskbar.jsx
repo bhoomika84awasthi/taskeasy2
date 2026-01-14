@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axiosInstance from '../services/axiosInstance';
+import axios from 'axios';
 import { LayoutGrid, ChevronDown, ChevronUp } from 'lucide-react'
 import RegisterForm from '../components/RegisterForm';
 
@@ -13,10 +13,13 @@ export default function Taskbar() {
   const projectId = "ProdigiSign"; // Actual project ID
 
   useEffect(() => {
-    if (!projectId) return;
+    const token = localStorage.getItem("token");
+    if (!token || !projectId) return;
     (async () => {
       try {
-        const res = await axiosInstance.get(`/projects/${projectId}/workitems`);
+        const res = await axios.get(`http://localhost:5000/api/projects/${projectId}/workitems`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
         setWorkItems(res.data?.items || []);
       } catch (err) {
         // Optionally handle error
@@ -27,11 +30,14 @@ export default function Taskbar() {
   const handleCreateWorkItem = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem("token");
+      if (!token) return alert("Not authenticated");
       if (!projectId) return alert("Project ID missing");
       const payload = { title, description, type, state: "New" };
-      const res = await axiosInstance.post(
-        `/projects/${projectId}/workitems`,
-        payload
+      const res = await axios.post(
+        `http://localhost:5000/api/projects/${projectId}/workitems`,
+        payload,
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       if (res.data && res.data.item) {
         setWorkItems((prev) => [...prev, res.data.item]);

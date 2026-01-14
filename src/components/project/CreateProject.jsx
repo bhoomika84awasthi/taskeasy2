@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axiosInstance from "../../services/axiosInstance";
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -8,6 +8,9 @@ export default function CreateProject({ onCreate }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const token = localStorage.getItem("token");
+  const url = "http://localhost:5000/api/projects";
 
  const handleSubmit = async (e) => {
   e.preventDefault();
@@ -26,7 +29,11 @@ export default function CreateProject({ onCreate }) {
     if (logo) formData.append('logo', logo);
 
     // Don't set Content-Type; let the browser set the boundary for multipart/form-data
-    const res = await axiosInstance.post('/projects', formData);
+    const res = await axios.post(url, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     toast.success("Project created successfully!");
     // Notify parent instead of navigating; parent will refresh and close modal

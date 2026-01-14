@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import API_BASE from "../utils/apiBase";
 import Navbar from "../components/Navbar";
 import DisplayProject from "../components/project/DisplayProject";
 
 export default function Projects() {
+  const baseURL = "http://localhost:5001/api/projects";
   const token = localStorage.getItem("token");
-  const baseURL = `${API_BASE}/projects`;
+
   const [projects, setProjects] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [editId, setEditId] = useState(null);
- // Fetch all projects
+
+  // Fetch all projects
   const fetchProjects = async () => {
     try {
       const res = await axios.get(baseURL, {

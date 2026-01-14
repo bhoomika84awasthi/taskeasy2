@@ -1,5 +1,7 @@
-import axiosInstance from './axiosInstance';
+import axios from 'axios';
 import projectContext from './projectContext';
+
+const API_BASE = 'http://localhost:5000/api';
 
 function ensureActiveProject(providedId) {
   const active = projectContext.getActiveProjectId();
@@ -10,12 +12,13 @@ function ensureActiveProject(providedId) {
 
 export const createWorkItem = async (projectId, workItemData) => {
   try {
+    const token = localStorage.getItem('token');
     const active = ensureActiveProject(projectId);
-    const response = await axiosInstance.post(
-      `/projects/${active}/workitems`,
+    const response = await axios.post(
+      `${API_BASE}/projects/${active}/workitems`,
       workItemData,
       {
-        headers: { 'x-project-id': active },
+        headers: { Authorization: `Bearer ${token}`, 'x-project-id': active },
       }
     );
     return response.data;
@@ -27,12 +30,13 @@ export const createWorkItem = async (projectId, workItemData) => {
 
 export const fetchWorkItems = async (projectId, filters = {}) => {
   try {
+    const token = localStorage.getItem('token');
     const params = new URLSearchParams(filters).toString();
     const active = ensureActiveProject(projectId);
-    const response = await axiosInstance.get(
-      `/projects/${active}/workitems${params ? '?' + params : ''}`,
+    const response = await axios.get(
+      `${API_BASE}/projects/${active}/workitems${params ? '?' + params : ''}`,
       {
-        headers: { 'x-project-id': active },
+        headers: { Authorization: `Bearer ${token}`, 'x-project-id': active },
       }
     );
     return response.data;
@@ -44,12 +48,13 @@ export const fetchWorkItems = async (projectId, filters = {}) => {
 
 export const updateWorkItem = async (projectId, workItemId, updates) => {
   try {
+    const token = localStorage.getItem('token');
     const active = ensureActiveProject(projectId);
-    const response = await axiosInstance.patch(
-      `/projects/${active}/workitems/${workItemId}`,
+    const response = await axios.patch(
+      `${API_BASE}/projects/${active}/workitems/${workItemId}`,
       updates,
       {
-        headers: { 'x-project-id': active },
+        headers: { Authorization: `Bearer ${token}`, 'x-project-id': active },
       }
     );
     return response.data;
@@ -61,11 +66,12 @@ export const updateWorkItem = async (projectId, workItemId, updates) => {
 
 export const deleteWorkItem = async (projectId, workItemId) => {
   try {
+    const token = localStorage.getItem('token');
     const active = ensureActiveProject(projectId);
-    const response = await axiosInstance.delete(
-      `/projects/${active}/workitems/${workItemId}`,
+    const response = await axios.delete(
+      `${API_BASE}/projects/${active}/workitems/${workItemId}`,
       {
-        headers: { 'x-project-id': active },
+        headers: { Authorization: `Bearer ${token}`, 'x-project-id': active },
       }
     );
     return response.data;

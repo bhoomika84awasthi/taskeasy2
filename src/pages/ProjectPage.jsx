@@ -3,14 +3,16 @@ import { CirclePlus, Link, MenuIcon, X } from "lucide-react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import axiosInstance from "../services/axiosInstance";
+import axios from "axios";
 import DisplayProject from "../components/project/DisplayProject";
 import DisplayWork from "../components/project/DisplayWork";
 import DisplayPull from "../components/project/DisplayPull";
 import { useNavigate } from "react-router-dom";
 
 export default function ProjectPage() {
+  const baseURL = "http://localhost:5000/api/projects";
   const [isOpen, setIsOpen] = useState(false);
+  const token = localStorage.getItem("token");
   const toggleDrawer = () => setIsOpen(!isOpen);
   const [projects, setProjects] = useState([]);
   const [category, setCategory] = useState("Projects");
@@ -18,7 +20,9 @@ export default function ProjectPage() {
 
   const fetchProjects = async () => {
     try {
-      const res = await axiosInstance.get('/projects');
+      const res = await axios.get(baseURL, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setProjects(res.data.projects || []);
     } catch (err) {
       console.error(err.response?.data || err.message);

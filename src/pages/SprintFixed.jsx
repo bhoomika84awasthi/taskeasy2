@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axiosInstance from '../services/axiosInstance';
+import axios from "axios";
 import { Link } from "react-router-dom";
 import ProjectName from '../components/ProjectName';
 import { useProject } from '../hooks/useProject';
@@ -30,7 +30,7 @@ const SprintFixed = () => {
     const fetchProjects = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("/projects", {
+        const res = await axios.get("http://localhost:5000/api/projects", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (res.data.projects && res.data.projects.length > 0) {
@@ -50,7 +50,7 @@ const SprintFixed = () => {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.get(
-          `/projects/${selectedProjectId}/sprints`,
+          `http://localhost:5000/api/projects/${selectedProjectId}/sprints`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (res.data.sprints && Array.isArray(res.data.sprints)) {
@@ -99,7 +99,9 @@ const SprintFixed = () => {
         state: sprintState,
       };
 
-      const res = await axiosInstance.post(`/projects/${projectId}/sprints`, payload,
+      const res = await axios.post(
+        `http://localhost:5000/api/projects/${projectId}/sprints`,
+        payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 
 import Home from './pages/Home';
@@ -17,7 +17,6 @@ import Wiki from "./pages/Wiki";
 import StartPage from "./pages/StartPage";
 import Summary from "./pages/Summary";
 import { ProjectProvider } from './context/ProjectProvider';
-import AuthGuard from './components/AuthGuard';
 import RequireProjectGuard from './components/RequireProjectGuard';
 import WikiPage from "./pages/WikiPage";
 import DashBoard from "./pages/Dashboard";
@@ -54,56 +53,52 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <AuthGuard>
-          <ProjectProvider>
-            <RequireProjectGuard>
-              <Routes>
-                {/* Public Auth Routes */}
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-              
-              {/* Protected Application Routes */}
-              <Route path='/api/home' element={<Home />} />
-              <Route path='/api/project' element={<ProjectManagement />} />
-              <Route path="/api/cdic" element={<CdicPipeline />} />
-              <Route path="/api/projects" element={<ProjectPage />} />
-              <Route path="/pro" element={<ProjectPage />} />
-              <Route path="/start" element={<StartPage />} />
-              <Route path="/startpage" element={<StartPage />} />
-              <Route path="/summary" element={<Summary />} />
-              <Route path="/projects/:projectId/summary" element={<Summary />} />
-              <Route path="/Wiki" element={<WikiPage />} />
-              <Route path="/Dashboard" element={<DashBoard />} />
-              <Route path="/Board" element={<Board />} />
-              <Route path="/Sprint" element={<Sprint />} />
-              <Route path="/SprintTest" element={<SprintTest />} />
-              <Route path="/Workitem" element={<Workitem />} />
-              <Route path="/taskbar" element={<Taskbar />} />
-              <Route path="/Taskboard" element={<Taskboard />} />
-              <Route path="/queries" element={<Queries />} />
-              <Route path="/queryboard" element={<QueryBoard />} />
-              <Route path="/timelogsummary" element={<Timelog />} />
-              <Route path="/deliverypage" element={<Delivery />} />
-              <Route path="/pipelines" element={<Pipelines />} />
-              <Route path="/release" element={<Release />} />
-              <Route path="/environment" element={<Environment />} />
-              <Route path="/library" element={<Library />} />
-              <Route path="/deploymentpage" element={<Deploymentpage />} />
-              <Route path="/taskgroup" element={<Taskgrouppage />} />
-              <Route path="/workitemdetail" element={<Workitemdetail/>} />
-              <Route path="/workitem/:projectId/:id" element={<WorkItemEdit />} />
-              <Route path="/project/:id" element={<ProjectDetail />} />
-              <Route path="/project/create" element={<CreateProject />} />
-              <Route path="/project/edit/:id" element={<EditProject />} />
-              <Route path="/create/wiki" element={<Wiki />} />
-              
-              {/* Catch-all - redirect to start */}
-              <Route path="/" element={<Navigate to="/start" replace />} />
-              <Route path='*' element={<Navigate to="/start" replace />} />
+        <ProjectProvider>
+          <RequireProjectGuard>
+            <Routes>
+          <Route path='/api/home' element={<Home />} />
+          <Route path='/api/project' element={<ProjectManagement />} />
+          <Route path='/api/signin' element={<Login />} />
+          <Route path='/api/signup' element={<Signup />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='*' element={<Login />} />
+          <Route path="/api/cdic" element={<CdicPipeline />} />
+          <Route path="/api/projects" element={<ProjectPage />} />
+          <Route path="/pro" element={<ProjectPage />} />
+          <Route path="/start" element={<StartPage />} />
+          <Route path="/startpage" element={<StartPage />} />
+          <Route path="/summary" element={<Summary />} />
+          <Route path="/projects/:projectId/summary" element={<Summary />} />
+          <Route path="/Wiki" element={<WikiPage />} />
+          <Route path="/Dashboard" element={<DashBoard />} />
+          <Route path="/Board" element={<Board />} />
+          <Route path="/Sprint" element={<Sprint />} />
+          <Route path="/SprintTest" element={<SprintTest />} />
+          <Route path="/Workitem" element={<Workitem />} />
+          <Route path="/taskbar" element={<Taskbar />} />
+          <Route path="/Taskboard" element={<Taskboard />} />
+          <Route path="/queries" element={<Queries />} />
+          <Route path="/queryboard" element={<QueryBoard />} />
+          <Route path="/timelogsummary" element={<Timelog />} />
+          <Route path="/deliverypage" element={<Delivery />} />
+          <Route path="/pipelines" element={<Pipelines />} />
+          <Route path="/release" element={<Release />} />
+          <Route path="/environment" element={<Environment />} />
+          <Route path="/library" element={<Library />} />
+          <Route path="/deploymentpage" element={<Deploymentpage />} />
+          <Route path="/taskgroup" element={<Taskgrouppage />} />
+          <Route path="/workitemdetail" element={<Workitemdetail/>} />
+          <Route path="/workitem/:projectId/:id" element={<WorkItemEdit />} />
+
+
+          <Route path="/project/:id" element={<ProjectDetail />} />
+          <Route path="/project/create" element={<CreateProject />} />
+          <Route path="/project/edit/:id" element={<EditProject />} />
+          <Route path="/create/wiki" element={<Wiki />} />
             </Routes>
           </RequireProjectGuard>
         </ProjectProvider>
-      </AuthGuard>
       </BrowserRouter>
     </>
   );

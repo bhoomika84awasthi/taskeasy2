@@ -1,11 +1,22 @@
-import axiosInstance from './axiosInstance';
+import axios from 'axios';
+
+const API_BASE_URL = 'http://localhost:5000/api';
+
+// Get auth token from localStorage
+const getAuthHeader = () => {
+  const token = localStorage.getItem('token');
+  return {
+    Authorization: `Bearer ${token}`,
+  };
+};
 
 export const deliveryPlanService = {
   // Get all delivery plans for a project
   getAllPlans: async (projectId) => {
     try {
-      const response = await axiosInstance.get(
-        `/projects/${projectId}/delivery-plans`
+      const response = await axios.get(
+        `${API_BASE_URL}/projects/${projectId}/delivery-plans`,
+        { headers: getAuthHeader() }
       );
       return response.data.plans;
     } catch (error) {
@@ -17,8 +28,9 @@ export const deliveryPlanService = {
   // Get single delivery plan
   getPlan: async (projectId, planId) => {
     try {
-      const response = await axiosInstance.get(
-        `/projects/${projectId}/delivery-plans/${planId}`
+      const response = await axios.get(
+        `${API_BASE_URL}/projects/${projectId}/delivery-plans/${planId}`,
+        { headers: getAuthHeader() }
       );
       return response.data.plan;
     } catch (error) {
@@ -30,9 +42,10 @@ export const deliveryPlanService = {
   // Create a new delivery plan
   createPlan: async (projectId, planData) => {
     try {
-      const response = await axiosInstance.post(
-        `/projects/${projectId}/delivery-plans`,
-        planData
+      const response = await axios.post(
+        `${API_BASE_URL}/projects/${projectId}/delivery-plans`,
+        planData,
+        { headers: getAuthHeader() }
       );
       return response.data.plan;
     } catch (error) {
@@ -44,9 +57,10 @@ export const deliveryPlanService = {
   // Update delivery plan
   updatePlan: async (projectId, planId, planData) => {
     try {
-      const response = await axiosInstance.patch(
-        `/projects/${projectId}/delivery-plans/${planId}`,
-        planData
+      const response = await axios.patch(
+        `${API_BASE_URL}/projects/${projectId}/delivery-plans/${planId}`,
+        planData,
+        { headers: getAuthHeader() }
       );
       return response.data.plan;
     } catch (error) {
@@ -58,8 +72,9 @@ export const deliveryPlanService = {
   // Delete delivery plan
   deletePlan: async (projectId, planId) => {
     try {
-      const response = await axiosInstance.delete(
-        `/projects/${projectId}/delivery-plans/${planId}`
+      const response = await axios.delete(
+        `${API_BASE_URL}/projects/${projectId}/delivery-plans/${planId}`,
+        { headers: getAuthHeader() }
       );
       return response.data;
     } catch (error) {

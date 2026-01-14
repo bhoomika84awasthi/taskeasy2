@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from '../services/axiosInstance';
+import axios from "axios";
 import TaskboardSidebar from "../components/TaskboardSidebar";
 import { useProject } from '../hooks/useProject';
 import { deleteWorkItem } from "../services/workItemService";
@@ -29,7 +29,7 @@ class ErrorBoundary extends React.Component {
 const TaskEasySprintsPage = () => {
   const API_URL =
     (import.meta && import.meta.env && import.meta.env.VITE_API_URL) ||
-    "";
+    "http://localhost:5000/api";
 
   const [projects, setProjects] = useState([]);
   const [selectedProjectId, setSelectedProjectId] = useState("");

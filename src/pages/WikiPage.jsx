@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import axiosInstance from '../services/axiosInstance';
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // lightweight JWT payload decoder (avoids external import issues in the browser)
@@ -120,7 +120,7 @@ export default function WikiPage({ project: propProject }) {
     if (!token) return;
     const fetchProjects = async () => {
       try {
-        const res = await axios.get('/projects', { headers: { Authorization: `Bearer ${token}` } });
+        const res = await axios.get('http://localhost:5000/api/projects', { headers: { Authorization: `Bearer ${token}` } });
         setProjects(res.data?.projects || res.data || []);
       } catch (err) {
         console.error('Failed to fetch projects', err?.response?.data || err.message);
@@ -140,7 +140,7 @@ export default function WikiPage({ project: propProject }) {
     const fetchPages = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/projects/${encodeURIComponent(effectiveProjectId)}/wiki`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await axios.get(`http://localhost:5000/api/projects/${encodeURIComponent(effectiveProjectId)}/wiki`, { headers: { Authorization: `Bearer ${token}` } });
         const list = res.data?.pages || [];
         setPages(list);
         if (list.length) setSelectedPage(list[0]);
@@ -172,7 +172,7 @@ export default function WikiPage({ project: propProject }) {
         throw new Error('Project ID missing');
       }
 
-      await axiosInstance.post(`/projects/${encodeURIComponent(targetProjectId)}/wiki`, {
+      await axios.post(`http://localhost:5000/api/projects/${encodeURIComponent(targetProjectId)}/wiki`, {
         // backend expects filename (used to name file) and filepath (holds HTML content)
         filename: `${newPageTitle.replace(/\s+/g, '-')}.html`,
         filepath: htmlContent,
@@ -183,7 +183,7 @@ export default function WikiPage({ project: propProject }) {
       setNewPageTitle('');
       setIsCreatingNew(false);
 
-      const res = await axios.get(`/projects/${encodeURIComponent(effectiveProjectId)}/wiki`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get(`http://localhost:5000/api/projects/${encodeURIComponent(effectiveProjectId)}/wiki`, { headers: { Authorization: `Bearer ${token}` } });
       const list = res.data?.pages || [];
       setPages(list);
       if (list.length) setSelectedPage(list[list.length - 1]);

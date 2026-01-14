@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import axiosInstance from '../services/axiosInstance';
+import axios from 'axios';
 import TaskboardSidebar from '../../TaskboardSidebar';
 import ProjectName from '../../../components/ProjectName';
 
@@ -46,7 +46,7 @@ export default function WorkItemEdit() {
     const fetchWorkItem = async () => {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get(`/projects/${projectId}/workitems/${id}`, {
+        const res = await axios.get(`http://localhost:5000/api/projects/${projectId}/workitems/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const item = res.data.item;
@@ -82,7 +82,7 @@ export default function WorkItemEdit() {
       const base = parseFloat(timeSpent) || 0;
       const sessionHours = (sessionSeconds || 0) / 3600;
       const payload = { timeSpent: Number((base + sessionHours).toFixed(4)), state: status, description, reason: status !== 'Completed' ? reason : '' };
-      await axiosInstance.patch(`/projects/${projectId}/workitems/${id}`, payload, {
+      await axios.patch(`http://localhost:5000/api/projects/${projectId}/workitems/${id}`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate(-1); // Go back
@@ -129,7 +129,8 @@ export default function WorkItemEdit() {
     
     try {
       const token = localStorage.getItem('token');
-      await axiosInstance.patch(`/projects/${projectId}/workitems/${id}`, { timeSpent: newTotal }, 
+      await axios.patch(`http://localhost:5000/api/projects/${projectId}/workitems/${id}`, 
+        { timeSpent: newTotal }, 
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setTimeSpent(String(newTotal));

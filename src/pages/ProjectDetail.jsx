@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ProjectNavbar from "../components/project/ProjectNavbar";
 import ProjectDetailBody from "../components/project/ProjectDetailBody";
 import { useParams, useNavigate } from "react-router-dom";
-import axiosInstance from '../services/axiosInstance';
+import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function ProjectDetail() {

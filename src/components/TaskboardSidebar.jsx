@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import axiosInstance from '../services/axiosInstance';
+import axios from "axios";
 import { useProject } from "../hooks/useProject";
 import {
   LayoutGrid,
@@ -42,7 +42,7 @@ export default function TaskboardSidebar({ projectName }) {
     if (projectId) {
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get(`/projects/${projectId}`, {
+        const res = await axios.get(`http://localhost:5000/api/projects/${projectId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         navigate(path, { state: { project: res.data.project || res.data } });
